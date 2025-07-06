@@ -1,0 +1,24 @@
+GNU Code Coverage Report
+==================================================
+
+Coverage for main.cc:
+
+Coverage for controllers/AuthController.cc:
+
+Coverage for controllers/DepartmentsController.cc:
+
+Coverage for controllers/JobsController.cc:
+
+Coverage for controllers/PersonsController.cc:
+
+Coverage for models/Department.cc:
+
+Coverage for models/Job.cc:
+
+Coverage for models/Person.cc:
+
+Coverage for models/PersonInfo.cc:
+
+Coverage for models/User.cc:
+
+Coverage for utils/utils.cc:

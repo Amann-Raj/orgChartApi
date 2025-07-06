@@ -1,0 +1,3 @@
+# Uncovered Code Prompt for LLM
+instructions: |
+  Analyze the following C++ test code and coverage report. Generate new unit tests that specifically target uncovered code paths or functions. Do not duplicate existing tests. Only include headers that exist in the current Drogon version in this project. Do not include <drogon/orm/operators.h>. Output only the new C++ test code, no explanations or comments outside the code block. 

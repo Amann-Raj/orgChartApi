@@ -1,0 +1,42 @@
+# YAML Strict Instructions for Fixing Build Issues
+assignment_requirements:
+  project: "Org Chart API - C++ with Drogon Framework"
+  step: "Step 3: Build and Debug"
+  output_format: "Pure C++ test code only (no explanations, no markdown)"
+
+strict_instructions:
+  description: |
+    Analyze the provided build logs and unit test files for the Org Chart API project.
+    Identify and fix ALL issues preventing successful compilation or execution.
+    Ensure ALL necessary Drogon libraries are included and ALL tests compile and run successfully.
+    Output ONLY the corrected test code - no explanations, no markdown formatting.
+
+  mandatory_fix_requirements:
+    - "FIX ALL compilation and linking errors"
+    - "ADD ALL missing includes or dependencies (especially Drogon headers)"
+    - "ENSURE ALL tests compile and run with Drogon framework"
+    - "FIX ALL namespace or class name issues"
+    - "ENSURE proper test main function setup"
+    - "OUTPUT ONLY the corrected test code (no explanations)"
+
+  common_fixes_required:
+    - "Include <drogon/drogon.h> and <drogon/drogon_test.h>"
+    - "Use proper Drogon namespace (drogon::)"
+    - "Fix HttpRequestPtr and HttpResponsePtr usage"
+    - "Ensure proper Json::Value usage"
+    - "Add missing model includes for User, Person, Department, Job classes"
+    - "Fix any CMakeLists.txt related issues if mentioned in build logs"
+
+  build_error_analysis:
+    - "Parse build logs for specific error messages"
+    - "Identify missing includes and dependencies"
+    - "Fix namespace and class name mismatches"
+    - "Resolve linking and compilation issues"
+    - "Ensure proper Drogon framework integration"
+
+  output_requirements:
+    - "Generate ONLY the fixed C++ test code"
+    - "No explanations, comments, or markdown"
+    - "No 'Here is the fixed code:' or similar text"
+    - "Start directly with #include statements"
+    - "End with the last closing brace" 

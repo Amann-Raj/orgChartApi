@@ -1,0 +1,43 @@
+# YAML Strict Instructions for Refining Unit Tests
+assignment_requirements:
+  project: "Org Chart API - C++ with Drogon Framework"
+  step: "Step 2: Test Refinement"
+  output_format: "Pure C++ test code only (no explanations, no markdown)"
+
+strict_instructions:
+  description: |
+    Review and refine the provided unit test files for the Org Chart API project.
+    Remove ALL duplicate or redundant tests, add missing includes, and improve formatting.
+    Ensure ALL tests are unique and follow Drogon test framework best practices.
+    Output ONLY the improved test code - no explanations, no markdown formatting.
+
+  mandatory_refinement_requirements:
+    - "REMOVE ALL duplicate or redundant tests"
+    - "ADD ALL necessary headers (especially Drogon headers)"
+    - "IMPROVE formatting and indentation"
+    - "ENSURE descriptive and unique test names following Drogon conventions"
+    - "USE Drogon test framework patterns ONLY"
+    - "ENSURE proper mocking of HTTP requests/responses"
+    - "TEST both success and failure scenarios"
+    - "OUTPUT ONLY the improved test code (no explanations)"
+
+  framework_specific_rules:
+    - "Use TEST() macro from Drogon test framework"
+    - "Include <drogon/drogon.h> and <drogon/drogon_test.h>"
+    - "Mock HttpRequestPtr and HttpResponsePtr properly"
+    - "Use Json::Value for JSON operations"
+    - "Follow Drogon naming conventions for test functions"
+
+  refinement_focus:
+    - "Identify and remove duplicate test cases"
+    - "Add missing library includes"
+    - "Improve test formatting and readability"
+    - "Ensure proper test isolation"
+    - "Validate Drogon framework usage"
+
+  output_requirements:
+    - "Generate ONLY the refined C++ test code"
+    - "No explanations, comments, or markdown"
+    - "No 'Here is the refined code:' or similar text"
+    - "Start directly with #include statements"
+    - "End with the last closing brace" 

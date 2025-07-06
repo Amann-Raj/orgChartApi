@@ -1,0 +1,62 @@
+# Initial Test Generation Prompt for LLM
+instructions: |
+  Generate C++ unit tests for the provided code using Drogon test framework.
+  
+  IMPORTANT REQUIREMENTS:
+  - Output ONLY the C++ code, no markdown fences (```cpp or ```)
+  - Use correct include paths: #include "third_party/libbcrypt/include/bcrypt/BCrypt.hpp" instead of #include <bcrypt/BCrypt.hpp>
+  - Only include headers that exist in this project
+  - Do not include <drogon/orm/operators.h>
+  - Use DROGON_TEST() macro for test functions
+  - Use CHECK() and CHECK_EQ() for assertions
+  - Include proper error handling and edge cases
+  
+  Output only the C++ test code, no explanations or comments outside the code block.
+
+# YAML Strict Instructions for Initial Unit Test Generation
+assignment_requirements:
+  project: "Org Chart API - C++ with Drogon Framework"
+  llm_model: "Google Gemini 2.5 Flash"
+  framework: "Drogon Test Framework (NOT Google Test)"
+  output_format: "Pure C++ test code only (no explanations, no markdown)"
+
+strict_instructions:
+  description: |
+    Generate comprehensive unit tests for the provided C++ source file using Drogon test framework.
+    This is for an Org Chart API project. Create tests that cover ALL public methods and edge cases.
+    Output ONLY the test code - no explanations, no markdown formatting, no commentary.
+
+  mandatory_requirements:
+    - "Use Drogon test framework ONLY (include <drogon/drogon.h> and <drogon/drogon_test.h>)"
+    - "Include ALL necessary headers for the specific file being tested"
+    - "NO duplicate or redundant tests"
+    - "Cover ALL public functions and methods"
+    - "Use clear, descriptive test names following Drogon conventions"
+    - "Test BOTH success and failure scenarios"
+    - "Mock database operations where needed"
+    - "Test JSON request/response handling for controllers"
+    - "Output ONLY the test code (no explanations or markdown formatting)"
+    - "Use proper C++ syntax and Drogon patterns"
+
+  framework_specific_rules:
+    - "Use TEST() macro from Drogon test framework"
+    - "Mock HttpRequestPtr and HttpResponsePtr for controller tests"
+    - "Use Json::Value for JSON operations"
+    - "Include proper setup and teardown if needed"
+    - "For controllers: test HTTP methods, request/response handling, status codes"
+    - "For models: test constructors, getters, setters, and business logic"
+    - "For utils: test utility functions with various inputs"
+
+  test_structure:
+    - "Include necessary Drogon headers"
+    - "Use proper namespace (drogon::)"
+    - "Use EXPECT_EQ, EXPECT_TRUE, EXPECT_FALSE for assertions"
+    - "Follow Drogon test patterns and conventions"
+    - "Ensure tests are self-contained and independent"
+
+  output_requirements:
+    - "Generate ONLY the C++ test code"
+    - "No explanations, comments, or markdown"
+    - "No 'Here is the test code:' or similar text"
+    - "Start directly with #include statements"
+    - "End with the last closing brace" 

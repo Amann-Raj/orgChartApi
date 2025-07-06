@@ -13,9 +13,9 @@ namespace drogon {
     inline Person fromRequest(const HttpRequest &req) {
         auto jsonPtr = req.getJsonObject();
         auto json = *jsonPtr;
-        if (json["department_id"]) json["department_id"] = std::stoi(json["department_id"].asString());
-        if (json["manager_id"]) json["manager_id"] = std::stoi(json["manager_id"].asString());
-        if (json["job_id"]) json["job_id"] = std::stoi(json["job_id"].asString());
+        if (!json["department_id"].isNull()) json["department_id"] = std::stoi(json["department_id"].asString());
+        if (!json["manager_id"].isNull()) json["manager_id"] = std::stoi(json["manager_id"].asString());
+        if (!json["job_id"].isNull()) json["job_id"] = std::stoi(json["job_id"].asString());
         auto person = Person(json);
         return person;
     }

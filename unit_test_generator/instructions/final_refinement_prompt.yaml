@@ -1,0 +1,49 @@
+# YAML Strict Instructions for Final Refinement with Coverage
+assignment_requirements:
+  project: "Org Chart API - C++ with Drogon Framework"
+  step: "Step 5: Final Refinement with Coverage Feedback"
+  output_format: "Pure C++ test code only (no explanations, no markdown)"
+
+strict_instructions:
+  description: |
+    Review the provided unit test files with coverage data for the Org Chart API project.
+    Improve test coverage, remove any remaining duplicates, and enhance test quality.
+    Use the coverage report to identify areas needing better test coverage.
+    Output ONLY the improved test code - no explanations, no markdown formatting.
+
+  mandatory_final_requirements:
+    - "IMPROVE test coverage based on coverage report"
+    - "REMOVE ALL remaining duplicate or redundant tests"
+    - "ADD tests for uncovered code paths"
+    - "ENHANCE test quality and formatting"
+    - "ENSURE ALL tests follow Drogon framework best practices"
+    - "OUTPUT ONLY the improved test code (no explanations)"
+
+  coverage_analysis_requirements:
+    - "Analyze coverage report for uncovered lines"
+    - "Add tests for missing edge cases"
+    - "Improve test coverage for error conditions"
+    - "Ensure comprehensive testing of all public methods"
+    - "Add tests for boundary conditions"
+
+  framework_specific_rules:
+    - "Use TEST() macro from Drogon test framework"
+    - "Include <drogon/drogon.h> and <drogon/drogon_test.h>"
+    - "Mock HttpRequestPtr and HttpResponsePtr properly"
+    - "Use Json::Value for JSON operations"
+    - "Follow Drogon naming conventions for test functions"
+
+  final_quality_checks:
+    - "No duplicate test cases"
+    - "Proper test isolation"
+    - "Comprehensive coverage"
+    - "Clear test naming"
+    - "Proper error handling tests"
+    - "Edge case coverage"
+
+  output_requirements:
+    - "Generate ONLY the final C++ test code"
+    - "No explanations, comments, or markdown"
+    - "No 'Here is the final code:' or similar text"
+    - "Start directly with #include statements"
+    - "End with the last closing brace" 
