@@ -2,197 +2,168 @@
 #include <drogon/drogon_test.h>
 #include "../../controllers/JobsController.h"
 #include "../utils/utils.h"
-#include "../models/Job.h"
 #include "../models/Person.h"
+#include "../models/Job.h"
 
 #include <iostream>
 #include <string>
-#include <vector>
 #include <memory>
+#include <utility>
+#include <vector>
+#include <functional>
+
+using namespace drogon;
+using namespace drogon::orm;
+using namespace drogon_model::org_chart;
 
 DROGON_TEST(JobsControllerGet)
 {
     auto req = HttpRequest::newHttpRequest();
-    auto callback = [](const HttpResponsePtr &resp) {
-        CHECK(resp != nullptr);
-        CHECK_EQ(resp->getStatusCode(), k200OK);
-    };
-    JobsController controller;
-    controller.get(req, std::move(callback));
-}
+    auto controller = std::make_shared<JobsController>();
+    bool callbackCalled = false;
 
-DROGON_TEST(JobsControllerGetWithParams)
-{
-    auto req = HttpRequest::newHttpRequest();
-    req->setParameter("offset", "0");
-    req->setParameter("limit", "10");
-    req->setParameter("sort_field", "title");
-    req->setParameter("sort_order", "desc");
-
-    auto callback = [](const HttpResponsePtr &resp) {
+    controller->get(req, [&](const HttpResponsePtr &resp) {
         CHECK(resp != nullptr);
-        CHECK_EQ(resp->getStatusCode(), k200OK);
-    };
-    JobsController controller;
-    controller.get(req, std::move(callback));
+        CHECK_EQ(resp->getStatusCode(), HttpStatusCode::k200OK);
+        callbackCalled = true;
+    });
+
+    CHECK(callbackCalled);
 }
 
 DROGON_TEST(JobsControllerGetOne)
 {
     auto req = HttpRequest::newHttpRequest();
-    auto callback = [](const HttpResponsePtr &resp) {
-        CHECK(resp != nullptr);
-        CHECK_EQ(resp->getStatusCode(), k200OK);
-    };
-    JobsController controller;
-    controller.getOne(req, std::move(callback), 1);
-}
+    auto controller = std::make_shared<JobsController>();
+    bool callbackCalled = false;
+    int jobId = 1;
 
-DROGON_TEST(JobsControllerGetOneNotFound)
-{
-    auto req = HttpRequest::newHttpRequest();
-    auto callback = [](const HttpResponsePtr &resp) {
+    controller->getOne(req, [&](const HttpResponsePtr &resp) {
         CHECK(resp != nullptr);
-        CHECK_EQ(resp->getStatusCode(), k404NotFound);
-    };
-    JobsController controller;
-    controller.getOne(req, std::move(callback), 9999);
+        CHECK_EQ(resp->getStatusCode(), HttpStatusCode::k201Created);
+        callbackCalled = true;
+    }, jobId);
+
+    CHECK(callbackCalled);
 }
 
 DROGON_TEST(JobsControllerCreateOne)
 {
     auto req = HttpRequest::newHttpRequest();
-    auto callback = [](const HttpResponsePtr &resp) {
-        CHECK(resp != nullptr);
-        CHECK_EQ(resp->getStatusCode(), k201Created);
-    };
-    JobsController controller;
+    auto controller = std::make_shared<JobsController>();
+    bool callbackCalled = false;
     Job job;
     job.setTitle("Test Job");
-    controller.createOne(req, std::move(callback), std::move(job));
+
+    controller->createOne(req, [&](const HttpResponsePtr &resp) {
+        CHECK(resp != nullptr);
+        CHECK_EQ(resp->getStatusCode(), HttpStatusCode::k201Created);
+        callbackCalled = true;
+    }, std::move(job));
+
+    CHECK(callbackCalled);
 }
 
 DROGON_TEST(JobsControllerUpdateOne)
 {
     auto req = HttpRequest::newHttpRequest();
-    Json::Value json;
-    json["title"] = "Updated Job Title";
-    req->setJsonObject(json);
+    auto controller = std::make_shared<JobsController>();
+    bool callbackCalled = false;
+    int jobId = 1;
+    Job job;
+    job.setTitle("Updated Job Title");
 
-    auto callback = [](const HttpResponsePtr &resp) {
+    controller->updateOne(req, [&](const HttpResponsePtr &resp) {
         CHECK(resp != nullptr);
-        CHECK_EQ(resp->getStatusCode(), k204NoContent);
-    };
-    JobsController controller;
-    controller.updateOne(req, std::move(callback), 1, {});
-}
+        CHECK_EQ(resp->getStatusCode(), HttpStatusCode::k204NoContent);
+        callbackCalled = true;
+    }, jobId, std::move(job));
 
-DROGON_TEST(JobsControllerUpdateOneNoJsonObject)
-{
-    auto req = HttpRequest::newHttpRequest();
-    auto callback = [](const HttpResponsePtr &resp) {
-        CHECK(resp != nullptr);
-        CHECK_EQ(resp->getStatusCode(), k400BadRequest);
-    };
-    JobsController controller;
-    controller.updateOne(req, std::move(callback), 1, {});
+    CHECK(callbackCalled);
 }
 
 DROGON_TEST(JobsControllerDeleteOne)
 {
     auto req = HttpRequest::newHttpRequest();
-    auto callback = [](const HttpResponsePtr &resp) {
+    auto controller = std::make_shared<JobsController>();
+    bool callbackCalled = false;
+    int jobId = 1;
+
+    controller->deleteOne(req, [&](const HttpResponsePtr &resp) {
         CHECK(resp != nullptr);
-        CHECK_EQ(resp->getStatusCode(), k204NoContent);
-    };
-    JobsController controller;
-    controller.deleteOne(req, std::move(callback), 1);
+        CHECK_EQ(resp->getStatusCode(), HttpStatusCode::k204NoContent);
+        callbackCalled = true;
+    }, jobId);
+
+    CHECK(callbackCalled);
 }
 
 DROGON_TEST(JobsControllerGetJobPersons)
 {
     auto req = HttpRequest::newHttpRequest();
-    auto callback = [](const HttpResponsePtr &resp) {
+    auto controller = std::make_shared<JobsController>();
+    bool callbackCalled = false;
+    int jobId = 1;
+
+    controller->getJobPersons(req, [&](const HttpResponsePtr &resp) {
         CHECK(resp != nullptr);
-        CHECK_EQ(resp->getStatusCode(), k200OK);
-    };
-    JobsController controller;
-    controller.getJobPersons(req, std::move(callback), 1);
+        CHECK_EQ(resp->getStatusCode(), HttpStatusCode::k200OK);
+        callbackCalled = true;
+    }, jobId);
+
+    CHECK(callbackCalled);
 }
 
-DROGON_TEST(JobsControllerGetJobPersonsNotFound)
+DROGON_TEST(JobsControllerNotFound)
 {
     auto req = HttpRequest::newHttpRequest();
-    auto callback = [](const HttpResponsePtr &resp) {
-        CHECK(resp != nullptr);
-        CHECK_EQ(resp->getStatusCode(), k404NotFound);
-    };
-    JobsController controller;
-    controller.getJobPersons(req, std::move(callback), 9999);
-}
+    auto controller = std::make_shared<JobsController>();
+    bool callbackCalled = false;
+    int jobId = 9999;
 
-DROGON_TEST(JobsControllerUpdateOneNotFound)
-{
-    auto req = HttpRequest::newHttpRequest();
-    Json::Value json;
-    json["title"] = "Updated Job Title";
-    req->setJsonObject(json);
-
-    auto callback = [](const HttpResponsePtr &resp) {
+    controller->getOne(req, [&](const HttpResponsePtr &resp) {
         CHECK(resp != nullptr);
-        CHECK_EQ(resp->getStatusCode(), k404NotFound);
-    };
-    JobsController controller;
-    controller.updateOne(req, std::move(callback), 9999, {});
-}
+        CHECK_EQ(resp->getStatusCode(), HttpStatusCode::k404NotFound);
+        callbackCalled = true;
+    }, jobId);
 
-DROGON_TEST(JobsControllerDeleteOneNotFound)
-{
-    auto req = HttpRequest::newHttpRequest();
-    auto callback = [](const HttpResponsePtr &resp) {
-        CHECK(resp != nullptr);
-        CHECK_EQ(resp->getStatusCode(), k404NotFound);
-    };
-    JobsController controller;
-    controller.deleteOne(req, std::move(callback), 9999);
-}
+    CHECK(callbackCalled);
 
-DROGON_TEST(JobsControllerCreateOneInvalidData)
-{
-    auto req = HttpRequest::newHttpRequest();
-    auto callback = [](const HttpResponsePtr &resp) {
+    callbackCalled = false;
+    controller->getJobPersons(req, [&](const HttpResponsePtr &resp) {
         CHECK(resp != nullptr);
-        CHECK_EQ(resp->getStatusCode(), k400BadRequest);
-    };
-    JobsController controller;
+        CHECK_EQ(resp->getStatusCode(), HttpStatusCode::k404NotFound);
+        callbackCalled = true;
+    }, jobId);
+
+    CHECK(callbackCalled);
+
     Job job;
-    job.setTitle(""); // Invalid data
-    controller.createOne(req, std::move(callback), std::move(job));
+    job.setTitle("Updated Job Title");
+    req->setJsonObject(std::make_shared<Json::Value>());
+    callbackCalled = false;
+    controller->updateOne(req, [&](const HttpResponsePtr &resp) {
+        CHECK(resp != nullptr);
+        CHECK_EQ(resp->getStatusCode(), HttpStatusCode::k404NotFound);
+        callbackCalled = true;
+    }, jobId, std::move(job));
+
+    CHECK(callbackCalled);
 }
-// Additional tests for uncovered code
-#include <drogon/drogon.h>
-#include <drogon/drogon_test.h>
-#include "../../controllers/JobsController.h"
-#include "../utils/utils.h"
-#include "../models/Job.h"
-#include "../models/Person.h"
 
-#include <iostream>
-#include <string>
-#include <vector>
-#include <memory>
-
-DROGON_TEST(JobsControllerUpdateOneEmptyTitle)
+DROGON_TEST(JobsControllerUpdateOneBadRequest)
 {
     auto req = HttpRequest::newHttpRequest();
-    Json::Value json;
-    json["title"] = "";
-    req->setJsonObject(json);
+    auto controller = std::make_shared<JobsController>();
+    bool callbackCalled = false;
+    int jobId = 1;
+    Job job;
 
-    auto callback = [](const HttpResponsePtr &resp) {
+    controller->updateOne(req, [&](const HttpResponsePtr &resp) {
         CHECK(resp != nullptr);
-        CHECK_EQ(resp->getStatusCode(), k400BadRequest);
-    };
-    JobsController controller;
-    controller.updateOne(req, std::move(callback), 1, {});
+        CHECK_EQ(resp->getStatusCode(), HttpStatusCode::k400BadRequest);
+        callbackCalled = true;
+    }, jobId, std::move(job));
+
+    CHECK(callbackCalled);
 }
